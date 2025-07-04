@@ -3,7 +3,7 @@ const VERSION = "0.4.3p3"
 const VERSION_NAME = "The Pringle Update"
 const VERSION_DATE = "February 16th, 2025"
 const IS_BETA = false
-const SAVE_PATH = () => IS_BETA ? "ordinalPRINGLESBETAsave" : "ordinalPRINGLESsave"
+const SAVE_PATH = () => IS_BETA ? "ordinalPRINGLESBETAsaveX1000New" : "ordinalPRINGLESsaveX1000New"
 
 // Saving the game
 let getSaveData = () => JSON.stringify(data)

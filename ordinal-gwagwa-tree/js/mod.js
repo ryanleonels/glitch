@@ -1,6 +1,6 @@
 let modInfo = {
 	name: "The Ordinal gwagwa Tree",
-	id: "ordinalpingles",
+	id: "ordinalpinglesgwa",
 	author: "gwa",
 	pointsName: "",
 	modFiles: ["layers/gwarkup.js", "tree.js", "helper.js", "formatOrd.js", "layers/booster.js", "layers/collapse.js", "layers/hierarchies.js", "layers/realms.js", "layers/gwa.js"],

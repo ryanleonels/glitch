@@ -126,7 +126,7 @@ function loadGame(loadgame) {
 }
 
 function load() {
-  let loadgame = JSON.parse(localStorage.getItem("om-fse-save")); //ordinalMarkupSave
+  let loadgame = JSON.parse(localStorage.getItem("om-fse-save-baseless")); //ordinalMarkupSave
   if (loadgame !== null && AF === 0) {
     loadGame(loadgame);
   }
@@ -261,7 +261,7 @@ function handlePreV1() {
 
 
 function save() {
-  if (AF === 0) localStorage.setItem("om-fse-save", JSON.stringify(game));
+  if (AF === 0) localStorage.setItem("om-fse-save-baseless", JSON.stringify(game));
 }
 
 function exporty() {

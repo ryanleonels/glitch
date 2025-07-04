@@ -1,7 +1,7 @@
 // Made by Reinhardt, and if dev isn't him, not them either
 // Chuck your data into the depths of the localStorage variable...
 function save() {
-	localStorage.setItem('lngi-inc', btoa(JSON.stringify(game)));
+	localStorage.setItem('lngi-inc-hyper', btoa(JSON.stringify(game)));
 }
 
 // Clear the save file
@@ -18,12 +18,12 @@ function wipe() {
 
 // Retrieve your data from the depths of the localStorage variable...
 function load() {
-	if (localStorage.getItem('lngi-inc') != undefined && localStorage.getItem('lngi-inc') != 'undefined' && localStorage.getItem('lngi-inc') != null) {
+	if (localStorage.getItem('lngi-inc-hyper') != undefined && localStorage.getItem('lngi-inc-hyper') != 'undefined' && localStorage.getItem('lngi-inc-hyper') != null) {
 		try {
-			game = JSON.parse(atob(localStorage.getItem('lngi-inc')));
+			game = JSON.parse(atob(localStorage.getItem('lngi-inc-hyper')));
 		} catch(e) {
 			console.warn('Outdated save, updating');
-			game = JSON.parse(localStorage.getItem('lngi-inc'));
+			game = JSON.parse(localStorage.getItem('lngi-inc-hyper'));
 		}
 		save();
 		return true;

@@ -1,7 +1,7 @@
 "use strict"
 let reader = new FileReader()
 function save() {
-  localStorage.setItem('ordinalMarkdownSave', JSON.stringify(game))
+  localStorage.setItem('ordinalMarkdownSave27', JSON.stringify(game))
 }
 
 function load(saveData) {

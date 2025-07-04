@@ -12,7 +12,7 @@ const VERSION = "0.4.2"
 const VERSION_NAME = "The Pringle Update"
 const VERSION_DATE = "November 1st, 2024"
 const IS_BETA = false
-const SAVE_PATH = () => IS_BETA ? "ordinalPRINGLESBETAsave" : "ordinalPRINGLESsave"
+const SAVE_PATH = () => IS_BETA ? "ordinalPRINGLESBETAsaveV042" : "ordinalPRINGLESsaveV042"
 
 //create all the variables in a data object for saving
 function getDefaultObject() {

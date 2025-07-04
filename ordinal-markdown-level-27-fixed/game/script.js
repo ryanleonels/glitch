@@ -10,7 +10,7 @@ let endgameReached = false
 game = newGame()
 app = newVue() // no data yet
 app.$data.tab = 1
-load(JSON.parse(localStorage.getItem("ordinalMarkdownSave")))
+load(JSON.parse(localStorage.getItem("ordinalMarkdownSave27")))
 
 window.setInterval(function() {
   let now=Date.now()

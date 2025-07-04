@@ -24,14 +24,14 @@ function getDefaultObject() {
 let data = getDefaultObject()
 //saving and loading
 function save(){
-    try{ window.localStorage.setItem('ordinalPRINGLESsave', JSON.stringify(data)) }
+    try{ window.localStorage.setItem('ordinalPRINGLESsaveBuggy', JSON.stringify(data)) }
     catch (e) {
         createAlert('Error', `Save failed.\n${e}`, 'Dang.');
         console.error(e);
     }
 }
 function load() {
-    let savedata = JSON.parse(window.localStorage.getItem('ordinalPRINGLESsave'))
+    let savedata = JSON.parse(window.localStorage.getItem('ordinalPRINGLESsaveBuggy'))
     if (savedata !== undefined) fixSave(data, savedata)
     fixOldSaves()
     createAlert('Welcome Back!', `You've loaded into Ordinal PRINGLES v${VERSION}\nEnjoy!`, 'Thanks!')
@@ -122,6 +122,6 @@ function fullReset(){
     deleteSave()
 }
 function deleteSave(){
-    window.localStorage.removeItem('ordinalPRINGLESsave')
+    window.localStorage.removeItem('ordinalPRINGLESsaveBuggy')
     location.reload()
 }
