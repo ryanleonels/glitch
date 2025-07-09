@@ -99,7 +99,7 @@ function parseSave(text) {
 }
 
 function save() {
-  localStorage.setItem("TerminalVelocity", exportedSave());
+  localStorage.setItem("TerminalVelocity1", exportedSave());
 }
 
 function fixSave() {
@@ -130,7 +130,7 @@ function fixData(defaultData, newData) {
 }
 
 function load() {
-  const get = localStorage.getItem("TerminalVelocity");
+  const get = localStorage.getItem("TerminalVelocity1");
 
   if (get === null || get === undefined) {
     Object.assign(player, start());
