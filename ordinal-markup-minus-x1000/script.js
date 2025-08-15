@@ -283,7 +283,7 @@ let deltaTime
 var calculate = window.setInterval(function() {
   deltaTime = Date.now()-game.lastTick
   loop(deltaTime)
-  clickCoolDown -= 1
+  clickCoolDown -= 1000; // x1000 here!
 }, game.msint)
 
 function loop(unadjusted) {
@@ -1233,7 +1233,7 @@ function completeDiagonalizeChallenge() {
 //Code "borrowed" from https://tonnygaric.com/blog/create-a-seconds-countdown-in-6-lines-of-javascript
 var diagonalizeSeconds = document.getElementById("countdown").textContent;
 var countdown = setInterval(function() {
-    diagonalizeSeconds-=0.1;
+    diagonalizeSeconds-=game.msint; // x1000 here!
     diagonalizeSeconds*=10
     diagonalizeSeconds = Math.round(diagonalizeSeconds)
     diagonalizeSeconds/=10
@@ -1244,7 +1244,7 @@ var countdown = setInterval(function() {
     //diagonalize()
     //}
       //}
-}, 100);
+}, game.msint);
 //End "borrowed" code.
 
 function setMarks() {
