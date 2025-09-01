@@ -1822,7 +1822,7 @@ function beautifyEN(n, f = 2) {
     if (mantissa == "10.00") exponent = exponent.add(1);
     if (mantissa == "10.00") mantissa = "1.00";
     return mantissa + "e" + beautify(exponent);
-  } else if (x.lt("eee6")) {
+  } else if (x.lt("eeee6")) {
     return "e" + beautifyEN(x.log10())
   } else return `10{${x.array[x.array.length-1][0]+1}}${x.array[x.array.length-1][1]+2}`
 
