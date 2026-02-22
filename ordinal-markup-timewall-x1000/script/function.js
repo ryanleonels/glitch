@@ -322,6 +322,7 @@ function calcBase(n = game.factorShifts) {
   if (b >= 8 && game.upgrades.includes(9)) b -= 4;
   if (game.upgrades.includes(10) && game.OP <= 1e270) b = 5;
   if (game.upgrades.includes(23) && b == 6) b = 5;
+  if (game.sfBought.includes(73) && b == 7) b = 5;
   return b;
 }
 
