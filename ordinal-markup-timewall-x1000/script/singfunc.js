@@ -19,7 +19,7 @@ class SingularityFunction {
     if(this.canBuy()) {
       this.bought = true
       if (!game.sfEver.includes(this.id)) game.sfEver.push(this.id)
-      game.spentFunctions += this.price
+      if (!(this.id<=25&&getBaseless()>=3)) game.spentFunctions += this.price
       game.sfBought.push(this.id)
       document.getElementById("SF"+this.id).classList.remove("unbought")
       document.getElementById("SF"+this.id).classList.add("boughtthing")

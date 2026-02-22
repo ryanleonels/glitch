@@ -67,7 +67,7 @@ const dupCosts = [
   Infinity,
   Infinity
 ];
-const baselessMile = [5**75,5**90,Infinity]
+const baselessMile = [5**75,5**90,5**115,5**120,5**125,Infinity]
 let ordColor = "no";
 const EN = ExpantaNum;
 const get = x => document.getElementById(x);
@@ -194,6 +194,12 @@ function loop(unadjusted, off = 0) {
       RPloop = RPloop % 600000
     }
   }
+  if (getBaseless()>=3) {
+    if (!game.sfBought.includes(11)) game.sfBought.push(11)
+    if (!game.sfBought.includes(21)) game.sfBought.push(21)
+    if (!game.sfBought.includes(22)) game.sfBought.push(22)
+    if (!game.sfBought.includes(23)) game.sfBought.push(23)
+  }
   if (game.challenge !== 0 && game.leastBoost <= 1.5 && game.qolSM.acc === 1) {
     if (
       game.OP >= challengeGoals[game.challenge - 1][Number(game.qolSM.nc8) - 1]
@@ -272,7 +278,7 @@ function loop(unadjusted, off = 0) {
   limAutoMult = game.aups.includes(2)
     ? Math.max(Math.sqrt(game.succAuto), 1)
     : 1;
-  const chal8Tip = calcOrdPoints() >= 1e30*1e10**(game.base==5&&game.sfBought.includes(61));
+  const chal8Tip = (getBaseless()<5) && (calcOrdPoints() >= 1e30*1e10**(game.base==5&&game.sfBought.includes(61)));
   const tempSucc = game.succAuto * succAutoMult * totalMult;
   const tempLim = game.limAuto * limAutoMult * totalMult;
   if (game.iups[3] === 1) buptotalMute += (game.challenge === 2 ? 1e7 : 1e8);
@@ -329,7 +335,7 @@ function loop(unadjusted, off = 0) {
     game.over = 0;
     game.ord = Math.max(Math.min(game.succAuto, game.limAuto), 4e270);
   }
-  if (!chal8Tip && game.chal8 === 1 && calcOrdPoints() >= 1e30*1e10**(game.base==5&&game.sfBought.includes(61)))
+  if (getBaseless()<5 && !chal8Tip && game.chal8 === 1 && calcOrdPoints() >= 1e30*1e10**(game.base==5&&game.sfBought.includes(61)))
     game.ord = game.base ** (game.base * 3+(game.base==5&&game.sfBought.includes(61)?game.base:0));
   changeDynamic(ms);
   if (game.dynamic < 0) game.dynamic = 0;
@@ -508,6 +514,15 @@ function render() {
     outSize >=
       (game.leastBoost <= 14 ? (game.leastBoost <= 1.5 ? 10 : 308) : 1.79769313486231e308) ||
     outSize >= Infinity;
+  let ordLevel=Number(getPsi(game.ord))
+  if (ordLevel > game.bestPsi && ordLevel != 1) {
+    game.bestPsi=ordLevel
+  }
+  get("psiLevel").innerText = ordLevel
+  if (get("Tab4").style.display == "block") {
+    get("nextPsiLevel").innerHTML = displayOrd(getPsiReq(ordLevel+1)(game.base),game.base)
+  }
+  get("bestPsiLevel").textContent=game.bestPsi
   if (game.infUnlock === 1) {
     get("infinityTabButton").style.display = "inline-block";
   } else {
@@ -950,6 +965,9 @@ function render() {
     "Your Factor Boost Autoprestiger is Factor Boosting " +
     (game.cAutoOn.boost == 1 ? beautifyEN(game.boostAuto) : 0) +
     " time(s) per second, but only at the BHO or higher, and if you can't get a sluggish milestone";
+  if (!game.advAutoShift) game.advAutoShift = 0;
+  get("factorShiftAdvAutoToggle").textContent=`Advanced Autoshift (max of 5 Factor Shifts in Challenge 8): ` + (game.advAutoShift==1?"ON":"OFF")
+  get("factorShiftAdvAutoToggle").style.display=(getBaseless()>=3?"inline":"none")
   get("cardExtra1").classList.remove("invisible");
   if (!game.aups.includes(1000)) get("cardExtra1").classList.add("invisible");
   get("cardExtra2").classList.remove("invisible");
@@ -1081,10 +1099,11 @@ function render() {
     "Upgrade with<br>" +
     formateNum(1e6 * (game.sfBought.includes(23)?4:5) ** game.sing.dm) +
     "<br>Dark Manifolds";
-  get("singFBtext").textContent =
-    "You are currently getting " +
-    formateNum(getFBps()) +
-    " Factor Boosts per second";
+  get("singFBtext").textContent = (game.chal8 == 1)
+    ? "Your decrementy is multiplying by " + beautifypower(getDecrementyRate(1000)) + " per second"
+    :  (game.cAutoOn.boost === 0 || game.challenge !== 0 || game.chal9 == 1)
+      ? "You are currently getting " + beautify(getIncrementyRate(1000)) + " incrementy per second"
+      : "You are currently getting " + commafy(getFBps()) + " Factor Boosts per second";
   get("sacrNw").innerHTML =
     "Upgrade with<br>" +
     beautifyEN(1e20 * (game.sfBought.includes(21)?30:100) ** game.sing.nw) +
@@ -1110,9 +1129,19 @@ They are based on your Singularity level.`
   get("minSing").style.display=(getBaseless()>=2?"block":"none")
   chalbut(8)
   get("challenge9").style.display=(game.aups.includes(10)?"block":"none")
+  if (getBaseless()>=4 && !(game.decrementy <= game.darkManifolds * Math.log10(game.sfBought.includes(31)?2:3))) {
+    game.darkManifolds = Math.floor(game.decrementy / Math.log10(game.sfBought.includes(31)?2:3));
+  }
+  if (getBaseless()>=4 && calcIncrementyMult() >= (game.iups[5] == 1 ? 2 : 3) ** (game.manifolds + 1)) {
+    game.manifolds=Math.max(game.manifolds,Math.floor(Math.log2(calcIncrementyMult()/1.2)))
+  }
+  if (game.challenge>0||game.chal8==1||game.chal9==1) {
+    challengeProject()
+  }
 }
 
 function dup(n, spectate = 0) {
+  if (getBaseless()>=4) spectate=0
   get("dup" + n).classList.remove("darkButton");
   get("dup" + n).classList.remove("locked");
   get("dup" + n).classList.remove("bought");
@@ -1236,6 +1265,7 @@ function changePrecision() {
   game.prec = (game.prec + 1) % 4;
 }
 function iup(n, spectate = 0) {
+  if (getBaseless()>=4) spectate=0
   get("iup" + n).classList.remove("boosterButton");
   get("iup" + n).classList.remove("locked");
   get("iup" + n).classList.remove("bought");
@@ -1244,7 +1274,7 @@ function iup(n, spectate = 0) {
     if (game.incrementy.gte(iupCosts[n - 1] ** (game.iups[n - 1] + 1))) {
       if (spectate == 0) {
         game.iups[n - 1] += 1;
-        game.incrementy = game.incrementy.minus(
+        if (getBaseless()<4) game.incrementy = game.incrementy.minus(
           iupCosts[n - 1] ** game.iups[n - 1]
         );
       } else {
@@ -1262,7 +1292,7 @@ function iup(n, spectate = 0) {
         get("iup" + n).classList.add("bought");
       } else if (game.incrementy.gte(iupCosts[n - 1])) {
         if (spectate == 0) {
-          game.incrementy = game.incrementy.minus(iupCosts[n - 1]);
+          if (getBaseless()<4) game.incrementy = game.incrementy.minus(iupCosts[n - 1]);
           game.iups[n - 1] = 1;
         } else {
           get("iup" + n).classList.add("boosterButton");
@@ -1294,7 +1324,7 @@ function getManifolds() {
     calcIncrementyMult() >=
     (game.iups[5] == 1 ? 2 : 3) ** (game.manifolds + 1)
   ) {
-    game.incrementy = EN(0);
+    if (getBaseless()<4) game.incrementy = EN(0);
     game.manifolds += 1;
   }
 }
@@ -1987,6 +2017,39 @@ function project(x) {
     }
     get("factorBoostProg").style.width = percentage + "%";
     get("factorBoostProg").innerHTML = percentage.toFixed(2) + "%";
+  }
+}
+
+function challengeProject() {
+  let percent = 0
+  if (game.chal9==1||(game.challenge>0&&game.challengeCompletion[game.challenge-1]>=3)) {
+    percent = 100
+    get("chalProg").style.width="100%"
+    get("chalProg").textContent="100.00%"
+    get("nextChalBulkTime").textContent="There are no more goals to be completed in this challenge"
+  } else if (game.challenge == 2 && game.challengeCompletion[1] != 0) {
+    percent = Math.min(1,game.OP/challengeGoals[1][game.challengeCompletion[1]])*100
+    let autoOn = (game.upgrades.includes(2) || game.leastBoost <= 1.5) && (game.autoOn.max==1) && ((game.upgrades.includes(3)&&game.autoOn.inf==1) || game.leastBoost <= 1e10)
+    get("chalProg").style.width=percent + "%"
+    get("chalProg").textContent=percent.toFixed(2) + "%"
+    get("nextChalBulkTime").textContent=percent==100?"Goal reached!":"The next challenge completion will take " + time(((challengeGoals[1][game.challengeCompletion[1]]-game.OP)/(10**270))/buptotalMute/(0+autoOn)) + " assuming your Tier 2 speed stays constant"
+  } else if (game.chal8 == 1) {
+    let effectiveOP = Math.max(game.OP,calcTotalOPGain())
+    percent = Math.min(1,effectiveOP/getChal8Goal(game.chal8Comp))*100
+    get("chalProg").style.width=percent + "%"
+    get("chalProg").textContent=percent.toFixed(2) + "%"
+    get("nextChalBulkTime").textContent=percent==100?"Goal reached!":"The next challenge completion will take " + time((getChal8Goal(game.chal8Comp)-effectiveOP)/(calcOPPS())) + " if you rely on passive OP gain only"
+  } else {
+    let ord = game.ord
+    let rate = totalMult*Math.min(game.succAuto,game.limAuto*game.base)*(game.aups.includes(2)?Math.min(Math.sqrt(Math.max(game.limAuto,1)),game.base*Math.sqrt(Math.max(game.succAuto,1))):1)
+    let OPmult = calcOPonInfMult()
+    let goal = challengeGoals[game.challenge-1][game.challengeCompletion[game.challenge-1]]
+    goal = (goal - (game.challenge==6||game.challenge==7?0:game.OP)) / OPmult
+    let ordGoal = OPtoOrd(goal,game.base)
+    percent = Math.min(1,ord / ordGoal)*100
+    get("chalProg").style.width=percent + "%"
+    get("chalProg").textContent=percent.toFixed(2) + "%"
+    get("nextChalBulkTime").textContent=percent==100?"Goal reached!":"The next challenge completion will take " + time((ordGoal-ord)/(rate)) + " assuming your Tier 1 speed stays constant"
   }
 }
 

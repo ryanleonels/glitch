@@ -87,8 +87,10 @@ function reset() {
   mostChal4: 0,
   refundPoints: 0,
   refundPointProg: 0,
+  advAutoShift: 0,
   chal9: 0,
   chal9Comp: 0,
+  bestPsi: 0,
   };
   document.getElementById("infinityTabButton").style.display = "none";
   render();

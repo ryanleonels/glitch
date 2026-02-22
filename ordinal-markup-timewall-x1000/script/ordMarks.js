@@ -91,6 +91,7 @@ function setMarks() {
     ]
   ];
   let bruh = ordMarks[1]
+  let bruh2 = ordMarks[2]
   let tempList = [];
   tempList.push("ψ(ε<sub>Ω2</sub>x)");
   ordMarks[1].forEach(item => {
@@ -108,7 +109,7 @@ function setMarks() {
   });
   ordMarks[1] = ordMarks[1].concat(tempList);
   tempList = [];
-  tempList.push("ψ(ε<sub>Ω2</sub><sup>ε<sub>Ω2</sub><sup>x</sub></sup>)");
+  tempList.push("ψ(ε<sub>Ω2</sub><sup>ε<sub>Ω2</sub><sup>x</sup></sup>)");
   bruh.forEach(item => {
     tempList.push(item.replace("ψ(", "ψ(ε<sub>Ω2</sub><sup>ε<sub>Ω2</sub><sup>").concat("marker").replace(/\)marker/g,"</sup></sup>)"));
   });
@@ -129,5 +130,47 @@ function setMarks() {
     tempList.push(item.replace("ψ(", "ψ(ε(Ω2)^(2)×"));
   });
   ordMarks[2] = ordMarks[2].concat(tempList);
+  tempList = [];
+  tempList.push("ψ(ε(Ω2)^(x))");
+  ordMarks[2].forEach(item => {
+    tempList.push(item.replace("ψ(", "ψ(ε(Ω2)^(").concat("marker").replace(/\)marker/g,"))"));
+  });
+  ordMarks[2] = ordMarks[2].concat(tempList);
+  tempList = [];
+  tempList.push("ψ(ε(Ω2)^(ε(Ω2)^(x)))");
+  bruh2.forEach(item => {
+    tempList.push(item.replace("ψ(", "ψ(ε(Ω2)^(ε(Ω2)^(").concat("marker").replace(/\)marker/g,")))"));
+  });
+  ordMarks[2] = ordMarks[2].concat(tempList);
+  ordMarks[0].push("ψ(ε<sub>Ω2+x</sub>)");
+  ordMarks[1].push("ψ(ε<sub>Ω2+x</sub>)");
+  ordMarks[2].push("ψ(ε(Ω2+x))");
+  ordMarks[0].push("ψ(ε<sub>Ωx</sub>)");
+  ordMarks[1].push("ψ(ε<sub>Ωx</sub>)");
+  ordMarks[2].push("ψ(ε(Ωx))");
+  ordMarks[0].push("ψ(ε<sub>Ω<sup>2</sup>x</sub>)");
+  ordMarks[1].push("ψ(ε<sub>Ω<sup>2</sup>x</sub>)");
+  ordMarks[2].push("ψ(ε(Ω^2×x))");
+  for (let i = 2; i < 296; i++) {
+    ordMarks[0].push("ψ(ε<sub>"+ordMarks[0][i].substr(2,ordMarks[0][i].length-3)+"</sub>)");
+    ordMarks[1].push("ψ(ε<sub>"+ordMarks[1][i].substr(2,ordMarks[1][i].length-3)+"</sub>)");
+    ordMarks[2].push("ψ(ε("+ordMarks[2][i].substr(2,ordMarks[2][i].length-3)+"))");
+  }
+  for (let i = 2; i < 40; i++) { //296
+    ordMarks[0].push("ψ(ε<sub>ε<sub>"+ordMarks[0][i].substr(2,ordMarks[0][i].length-3)+"</sub></sub>)");
+    ordMarks[1].push("ψ(ε<sub>ε<sub>"+ordMarks[1][i].substr(2,ordMarks[1][i].length-3)+"</sub></sub>)");
+    ordMarks[2].push("ψ(ε(ε("+ordMarks[2][i].substr(2,ordMarks[2][i].length-3)+")))");
+  }
+  /*for (let i = 2; i < 40; i++) {
+    ordMarks[0].push("ψ(ε<sub>ε<sub>ε<sub>"+ordMarks[0][i].substr(2,ordMarks[0][i].length-3)+"</sub></sub></sub>)");
+    ordMarks[1].push("ψ(ε<sub>ε<sub>ε<sub>"+ordMarks[1][i].substr(2,ordMarks[1][i].length-3)+"</sub></sub></sub>)");
+    ordMarks[2].push("ψ(ε(ε(ε("+ordMarks[2][i].substr(2,ordMarks[2][i].length-3)+"))))");
+  }*/
+  ordMarks[0].push("ψ(ζ<sub>Ω+x</sub>)");
+  ordMarks[1].push("ψ(ζ<sub>Ω+x</sub>)");
+  ordMarks[2].push("ψ(ζ(Ω+x))");
+  ordMarks[0].push("ψ(ζ<sub>Ω2</sub>)");
+  ordMarks[1].push("ψ(ζ<sub>Ω2</sub>)");
+  ordMarks[2].push("ψ(ζ(Ω2))");
 }
 
